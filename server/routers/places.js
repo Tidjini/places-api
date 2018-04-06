@@ -1,4 +1,6 @@
 const { Place } = require('../models/Place');
+const { ObjectID } = require('mongodb');
+
 const _ = require('lodash');
 
 module.exports = app => {
@@ -39,6 +41,22 @@ module.exports = app => {
       },
       err => {
         res.status(400).send(err);
+      }
+    );
+  });
+
+  app.get('/api/places/:id', (req, res) => {
+    const id = req.params.id;
+    if (!ObjectID.isValid(id)) {
+      return res.status(404).send();
+    }
+    Place.findOne({ _id: id }).then(
+      place => {
+        if (place == null) return res.status(404).send('TODO not found');
+        res.send({ place });
+      },
+      err => {
+        res.status(400).send();
       }
     );
   });

@@ -131,3 +131,45 @@ describe('GET /api/places/:id', () => {
       .end(done);
   });
 });
+
+describe('DELETE /api/places/:id', () => {
+  it('should delete place', done => {
+    setTimeout(done, 0);
+    request(app)
+      .delete(`/api/places/${places[0]._id.toHexString()}`)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.place.name).toBe(places[0].name);
+      })
+      .end((err, res) => {
+        if (err) return done(err);
+
+        Place.findById(places[0]._id.toHexString())
+          .then(place => {
+            //expecting that we added just one // NOTE: GOTO beforeEach if your already add data (init db to Collection)
+            expect(place).toNotExist();
+            //call done method to out the result
+            done();
+          })
+          .catch(err => done(err));
+      });
+  });
+
+  it('should not delete not found place', done => {
+    setTimeout(done, TIME_OUT);
+    const id = new ObjectID().toHexString();
+    request(app)
+      .delete(`/api/places/${id}`)
+      .expect(404)
+      .end(done);
+  });
+
+  it('should not delete place with invalid id', done => {
+    //setTimeout(done, TIME_OUT);
+    const id = '5ac24acd7d636a3bf493f2b2zefzef';
+    request(app)
+      .delete(`/api/places/${id}`)
+      .expect(404)
+      .end(done);
+  });
+});

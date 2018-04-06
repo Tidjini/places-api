@@ -19,6 +19,8 @@ const places = [
 ];
 //remove before each done method
 const populatePlaces = done => {
+  setTimeout(done, 0);
+
   Place.remove({})
     .then(() => {
       //for getting some data

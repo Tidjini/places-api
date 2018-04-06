@@ -156,7 +156,7 @@ describe('DELETE /api/places/:id', () => {
   });
 
   it('should not delete not found place', done => {
-    setTimeout(done, TIME_OUT);
+    setTimeout(done, 0);
     const id = new ObjectID().toHexString();
     request(app)
       .delete(`/api/places/${id}`)

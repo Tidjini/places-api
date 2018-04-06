@@ -2,6 +2,7 @@ const { Place } = require('../models/Place');
 const _ = require('lodash');
 
 module.exports = app => {
+  //POST /api/places
   app.post('/api/places', (req, res) => {
     const body = _.pick(req.body, [
       'type',

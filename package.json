@@ -1,0 +1,22 @@
+{
+  "name": "places-api",
+  "version": "0.0.1",
+  "description": "nearme places web api",
+  "main": "index.js",
+  "scripts": {
+    "test":
+      "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\"",
+    "start": "node server/server.js"
+  },
+  "keywords": ["nearme", "web", "api"],
+  "author": "Tidjini Messaoudi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "lodash": "^4.17.5",
+    "mongoose": "^5.0.13",
+    "validator": "^9.4.1"
+  }
+}

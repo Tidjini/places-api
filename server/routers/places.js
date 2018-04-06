@@ -30,4 +30,16 @@ module.exports = app => {
       }
     );
   });
+
+  //GET /api/places
+  app.get('/api/places', (req, res) => {
+    Place.find().then(
+      places => {
+        res.send({ places });
+      },
+      err => {
+        res.status(400).send(err);
+      }
+    );
+  });
 };

@@ -53,6 +53,16 @@ PlaceSchema.methods.toJSON = function() {
   ]);
 };
 
+//this method must check if location exist with google map api
+PlaceSchema.methods.confirmeLocation = function() {
+  const place = this;
+  //get the location
+  const { location } = place;
+  // TODO: get request to google map api with location params
+  // if we get 200 and response then porsuit the save
+  // else return 400 status for the user (request entry error)
+};
+
 const Place = mongoose.model('Place', PlaceSchema);
 
 module.exports = {

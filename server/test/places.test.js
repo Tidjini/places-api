@@ -173,3 +173,27 @@ describe('DELETE /api/places/:id', () => {
       .end(done);
   });
 });
+
+describe('PATCH /api/places/:id', () => {
+  //this.timeout(10000);
+  it('should update a place', done => {
+    //init the time out
+    //
+    setTimeout(done, 0);
+    const place = {
+      name: 'text updated (item 1)',
+      description: 'azebfhbahze'
+    };
+    //request from supertest : library for testing express app (handle test requesting to express application)
+    request(app)
+      .patch(`/api/places/${places[0]._id.toHexString()}`)
+      .send(place)
+      .expect(200)
+      .expect(res => {
+        //expect is simple library to do custom testing
+        expect(res.body.place.name).toBe(place.name);
+        expect(res.body.place.description).toBe(place.description);
+      })
+      .end(done);
+  });
+});

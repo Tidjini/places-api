@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const _ = require('lodash');
+const mongoose = require("mongoose");
+const _ = require("lodash");
 
 const PlaceSchema = new mongoose.Schema({
   type: {
@@ -44,26 +44,34 @@ PlaceSchema.methods.toJSON = function() {
   const placeObject = place.toObject();
 
   return _.pick(placeObject, [
-    '_id',
-    'name',
-    'description',
-    'rate',
-    'type',
-    'location'
+    "_id",
+    "name",
+    "description",
+    "rate",
+    "type",
+    "location"
   ]);
 };
 
 //this method must check if location exist with google map api
-PlaceSchema.methods.confirmeLocation = function() {
+PlaceSchema.methods.isLocation = function() {
   const place = this;
   //get the location
-  const { location } = place;
-  // TODO: get request to google map api with location params
-  // if we get 200 and response then porsuit the save
-  // else return 400 status for the user (request entry error)
+  const { lat, lng } = place.location;
+
+  // TODO: verify this
+  const reg = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
+
+  if (reg.exec(lat) && reg.exec(lng)) {
+    return true;
+  } else {
+    return false;
+  }
+
+  // TODO: verify this
 };
 
-const Place = mongoose.model('Place', PlaceSchema);
+const Place = mongoose.model("Place", PlaceSchema);
 
 module.exports = {
   Place

@@ -1,18 +1,19 @@
-const { Place } = require('../models/Place');
-const { ObjectID } = require('mongodb');
+const { Place } = require("../models/Place");
+const { ObjectID } = require("mongodb");
 
-const _ = require('lodash');
+const _ = require("lodash");
 
 module.exports = app => {
   //POST /api/places
-  app.post('/api/places', (req, res) => {
+  app.post("/api/places", (req, res) => {
     const body = _.pick(req.body, [
-      'type',
-      'lat',
-      'lng',
-      'name',
-      'description'
+      "type",
+      "lat",
+      "lng",
+      "name",
+      "description"
     ]);
+
     const place = new Place({
       type: body.type,
       location: {
@@ -34,7 +35,7 @@ module.exports = app => {
   });
 
   //GET /api/places
-  app.get('/api/places', (req, res) => {
+  app.get("/api/places", (req, res) => {
     Place.find().then(
       places => {
         res.send({ places });
@@ -46,14 +47,14 @@ module.exports = app => {
   });
 
   //GET /api/places/:id
-  app.get('/api/places/:id', (req, res) => {
+  app.get("/api/places/:id", (req, res) => {
     const id = req.params.id;
     if (!ObjectID.isValid(id)) {
       return res.status(404).send();
     }
     Place.findOne({ _id: id }).then(
       place => {
-        if (place == null) return res.status(404).send('TODO not found');
+        if (place == null) return res.status(404).send("TODO not found");
         res.send({ place });
       },
       err => {
@@ -62,14 +63,14 @@ module.exports = app => {
     );
   });
   //DELETE /api/places/:id
-  app.delete('/api/places/:id', (req, res) => {
+  app.delete("/api/places/:id", (req, res) => {
     const id = req.params.id;
     if (!ObjectID.isValid(id)) {
       return res.status(404).send();
     }
     Place.findOneAndRemove({ _id: id }).then(
       place => {
-        if (place == null) return res.status(404).send('TODO not found');
+        if (place == null) return res.status(404).send("TODO not found");
         res.send({ place });
       },
       err => {
@@ -78,23 +79,23 @@ module.exports = app => {
     );
   });
   //PATCH /api/places/:id
-  app.patch('/api/places/:id', (req, res) => {
+  app.patch("/api/places/:id", (req, res) => {
     const id = req.params.id;
     if (!ObjectID.isValid(id)) {
       return res.status(404).send();
     }
 
     const body = _.pick(req.body, [
-      'type',
-      'lat',
-      'lng',
-      'name',
-      'description'
+      "type",
+      "lat",
+      "lng",
+      "name",
+      "description"
     ]);
 
     Place.findOneAndUpdate({ _id: id }, { $set: body }, { new: true })
       .then(place => {
-        if (place == null) return res.status(404).send('TODO not found');
+        if (place == null) return res.status(404).send("TODO not found");
         res.send({ place });
       })
       .catch(err => {
